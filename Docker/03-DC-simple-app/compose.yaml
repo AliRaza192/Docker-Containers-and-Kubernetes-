@@ -1,0 +1,110 @@
+# version: '3.8'
+
+# services:
+#   frontend:
+#     build:
+#       context: ./frontend
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - ./frontend:/app
+#     networks:
+#       - public
+#     depends_on:
+#       - backend
+
+#   backend:
+#     build:
+#       context: ./backend
+#     ports:
+#       - "3001:3001"
+#     volumes:
+#       - ./backend:/code
+#     environment:
+#       - DATABASE_HOST=db
+#       - DATABASE_USER=root
+#       - DATABASE_PASSWORD=/run/secrets/db-password
+#       - DATABASE_NAME=example
+#     networks:
+#       - private
+#     depends_on:
+#       - db
+
+#   db:
+#     image: mariadb:10.6.4-focal
+#     environment:
+#       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db-password
+#       MYSQL_DATABASE: example
+#     volumes:
+#       - db-data:/var/lib/mysql
+#     networks:
+#       - private
+#     secrets:
+#       - db-password
+
+# networks:
+#   public:
+#   private:
+
+# volumes:
+#   db-data:
+
+# secrets:
+#   db-password:
+#     file: ./db/password.txt
+
+
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    networks:
+      - public
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/code
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=/run/secrets/db-password
+      - DATABASE_NAME=example
+    networks:
+      - private
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.6.4-focal
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db-password
+      MYSQL_DATABASE: example
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - private
+    secrets:
+      - db-password
+
+networks:
+  public:
+  private:
+
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: ./db/password.txt
